@@ -1,0 +1,27 @@
+<div class="page-header">
+  <%= link_to new_theme_path, class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Nuevo Tema
+  <% end %>
+  <h1>Temas</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+            <th>Nombre</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= content_tag_for(:tr, @themes) do |theme| %>
+            <td><%= theme.name %></td>
+        <td><%= link_to 'Editar', edit_theme_path(theme) %></td>
+        <td><%= link_to 'Eliminar', theme, method: :delete, data: { confirm: 'Estás Seguro?' } %></td>
+      <% end %>
+    </tbody>
+  </table>
+</div>

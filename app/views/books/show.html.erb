@@ -1,0 +1,91 @@
+<div class="page-header">
+
+  <%= link_to books_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Volver
+  <% end %>
+  <% if admin_signed_in? %>
+    <%= link_to book_copies_path(@book), class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-book"></span>
+      Mirar Ejemplares
+    <% end %>
+    <%= link_to edit_book_path(@book), class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-pencil"></span>
+      Editar
+    <% end %>
+  <% else %>
+    <% if user_signed_in? %>
+      <%= link_to new_user_loan_path(current_user, :book_id => @book.id), class: 'btn btn-primary' do %>
+        <span class="glyphicon glyphicon-book"></span>
+        Apartar Libro
+      <% end %>
+
+      <% else %>
+      
+      <%= link_to new_user_session_path(), class: 'btn btn-primary' do %>
+        <span class="glyphicon glyphicon-book"></span>
+        Apartar Libro
+      <% end %>
+    <% end %>
+
+  <% end %>
+
+
+  <h1><%= @book.title %></h1>
+</div>
+
+<div class="author-column">
+  <!--
+  <div style="background-image: url('<%= @book.avatar.url %>')" class="author-picture">
+  </div>
+  -->
+  <div class="author-figure">
+    <figure class='book'>
+
+                <!-- Front -->
+
+                <ul class='hardcover_front'>
+                  <li>
+                    <div class="coverDesign" style="background-image: url('<%= @book.avatar.url %>')">
+                    </div>
+                  </li>
+                  <li></li>
+                </ul>
+
+                <!-- Pages -->
+
+                <ul class='page'>
+                  <li></li>
+                  <li>
+                    <div class="page-content">
+                      <h4><%= @book.title %></h4>
+                      <div class="back-image" style="background-image: url('<%=@book.author.avatar.url(:medium)%>')"></div>
+                      <h5><%= @book.author.name  %></h5>
+                    </div>
+                  </li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                </ul>
+
+                <!-- Back -->
+
+                <ul class='hardcover_back'>
+                  <li></li>
+                  <li></li>
+                </ul>
+                <ul class='book_spine'>
+                  <li></li>
+                  <li></li>
+                </ul>
+                
+    </figure>
+  </div>
+  <div class="author-desc">
+    <p><b>Autor: </b> <%= link_to @book.author.name, @book.author  %></p>
+    <p><b>Categoría: </b> <%= link_to @book.theme.name, @book.theme  %></p>
+    <p><b>Editorial: </b> <%= link_to @book.editorial.name, @book.editorial  %></p>
+    <p><b>Ejemplares/En Préstamo: </b> <%= @book.copies.size  %> / <%= @book.loaned %></p>
+    <p><%= @book.description %></p>
+  </div>
+</div>

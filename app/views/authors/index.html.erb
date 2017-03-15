@@ -1,0 +1,59 @@
+<div class="page-header">
+  <% if admin_signed_in? %>
+    <%= link_to new_author_path, class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-plus"></span>
+      Añadir Autor
+    <% end %>
+  <% end %>
+  <h1>Autores</h1>
+</div>
+
+<form>
+  <div class="search-bar">
+    <input type="text" class="form-control" name="search" placeholder="Buscar...">
+    <input type="submit" value="+">
+    </div>
+</form>
+
+<div class="wrap-container">
+  <% @authors.each do |author| %>
+    
+    <%= link_to author, :class=>'author', :style => "background-image: url('#{author.avatar.url(:medium)}')" do %>
+      <div class="author-bio">
+        <h4><%= author.name %></h4>
+        <p><b>Cantidad de Libros: </b> <%= author.books.size %></p>
+        <p><%= truncate(author.desc, :length => 100) %></p>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<%= will_paginate @authors %>
+
+
+
+
+<!-- PARTE ADMINISTRADOR -->
+  <% if admin_signed_in? %>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+                <th>Name</th>
+                <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <%= content_tag_for(:tr, @authors) do |author| %>
+                <td><%= author.name %></td>
+                <td><%= link_to 'Show', author %></td>
+            <td><%= link_to 'Edit', edit_author_path(author) %></td>
+            <td><%= link_to 'Destroy', author, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>

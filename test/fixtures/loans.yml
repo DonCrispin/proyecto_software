@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  delivery_date: 2017-03-03
+  return_date: 2017-03-03
+  active: false
+  copy: one
+  user: one
+
+two:
+  delivery_date: 2017-03-03
+  return_date: 2017-03-03
+  active: false
+  copy: two
+  user: two

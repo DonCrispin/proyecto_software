@@ -1,0 +1,27 @@
+<div class="page-header">
+  <%= link_to new_editorial_path, class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Nueva Editorial
+  <% end %>
+  <h1>Editoriales</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+            <th>Nombre</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= content_tag_for(:tr, @editorials) do |editorial| %>
+            <td><%= editorial.name %></td>
+        <td><%= link_to 'Editar', edit_editorial_path(editorial) %></td>
+        <td><%= link_to 'Eliminar', editorial, method: :delete, data: { confirm: 'Estás Seguro?' } %></td>
+      <% end %>
+    </tbody>
+  </table>
+</div>

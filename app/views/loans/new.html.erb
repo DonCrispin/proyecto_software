@@ -1,0 +1,12 @@
+<div class="page-header">
+  <%= link_to book_path(@book), class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Volver
+  <% end %>
+  <h1>Nuevo Préstamo para <%= @book.title %></h1>
+</div>
+<% if @book.copies.size > @book.loaned %>
+	<%= render 'form' %>
+<% else %>
+	<p><i>No se Encuentran Ejempleares disponibles de este libro</i></p>
+<% end %>

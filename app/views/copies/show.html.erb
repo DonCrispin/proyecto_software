@@ -1,0 +1,27 @@
+<div class="page-header">
+
+  <%= link_to book_copies_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Volver
+  <% end %>
+  <% if admin_signed_in? %>
+    <%= link_to edit_book_copy_path(@copy), class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-pencil"></span>
+      Editar
+    <% end %>
+  <% end %>
+
+
+  <h1>Ejemplar</h1>
+</div>
+
+<p><b>Fecha: </b><%= @copy.year %></p>
+<p><b>Ubicación: </b><%= @copy.location %></p>
+<p><b>Libro: </b><%= @copy.book.title %></p>
+<p><b>Prestado? </b> 
+<% if @copy.loansActive?  %>
+    Sí
+<% else %>
+    No
+<% end %>
+</p>

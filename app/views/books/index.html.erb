@@ -1,0 +1,78 @@
+<div class="page-header">
+  <% if admin_signed_in? %>
+    <%= link_to new_book_path, class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-plus"></span>
+      Añadir Libro
+    <% end %>
+  <% end %>
+  <h1>Libros</h1>
+</div>
+
+<form>
+  <div class="search-bar">
+    <input type="text" class="form-control" name="search" placeholder="Buscar...">
+    <input type="submit" value="+">
+    </div>
+</form>
+
+<div class="wrap-container">
+  <% @books.each do |book| %>
+    
+    <%= link_to book, :class=>'book-thumb flip-container' do %>
+      <div class="flipper">
+        <div class="front" style="background-image: url('<%=book.avatar.url(:medium)%>')">
+          <div class="book-bio">
+            <h4><%= book.title %></h4>
+          </div>
+        </div>
+        <div class="back" style="background-image: url('<%=book.avatar.url(:medium)%>')">
+          <div class="shadow">
+            <div class="back-image" style="background-image: url('<%=book.author.avatar.url(:medium)%>')"></div>
+            <div class="back-info">
+              <h4><%= book.title %></h4>
+              <p><b>Autor: </b><%= book.author.name %></p>
+              <p><b>Categoría:</b> <%= book.theme.name %></p>
+              <p><b>Editorial:</b> <%= book.editorial.name %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<%= will_paginate @books %>
+
+
+<!-- PARTE ADMINISTRADOR -->
+  <% if admin_signed_in? %>
+
+
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+                <th>Titulo</th>
+                <th>Autor</th>
+                <th>Tema </th>
+                <th>Editorial</th>
+                <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <%= content_tag_for(:tr, @books, :style => "height: auto") do |bookl| %>
+                <td><%= bookl.title %></td>
+                <td><%= bookl.author.name %></td>
+                <td><%= bookl.theme.name %></td>
+                <td><%= bookl.editorial.name %></td>
+                <td><%= link_to 'Mostrar', bookl %></td>
+            <td><%= link_to 'Editar', edit_book_path(bookl) %></td>
+            <td><%= link_to 'Eliminar', bookl, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>

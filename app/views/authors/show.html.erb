@@ -1,0 +1,38 @@
+<div class="page-header">
+  <%= link_to authors_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Volver
+  <% end %>
+  <% if admin_signed_in? %>
+    <%= link_to edit_author_path(@author), class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-pencil"></span>
+      Editar
+    <% end %>
+  <% end %>
+  <h1><%= @author.name %></h1>
+</div>
+
+<div class="author-column">
+  <div style="background-image: url('<%= @author.avatar.url %>')" class="author-picture">
+  </div>
+  <div class="author-desc">
+    <p><%= @author.desc %></p>
+  </div>
+</div>
+<% if @author.books.size>0 %>
+  <h2>Libros</h2>  
+<% end %>
+
+<div class="wrap-container">
+  <% @author.books.paginate(:page => params[:page], :per_page => 10).each do |book| %>
+    
+    <%= link_to book, :class=>'author', :style => "background-image: url('#{book.avatar.url(:medium)}')" do %>
+      <div class="author-bio">
+        <h4><%= book.title %></h4>
+        <p><%= truncate(book.description, :length => 100) %></p>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<%= will_paginate @author.books.paginate(:page => params[:page], :per_page => 10) %>
