@@ -20,16 +20,15 @@
 <div class="row">
 	<h2>Los autores más relevantes</h2>
 	<div class="wrap-container">
-	  <% @authors.each do |author| %>
-	    
-	    <%= link_to author, :class=>'author', :style => "background-image: url('#{author.avatar.url(:medium)}')" do %>
-	      <div class="author-bio">
-	        <h4><%= author.name %></h4>
-	        <p><b>Cantidad de Libros: </b> <%= author.books.size %></p>
-	        <p><%= truncate(author.desc, :length => 100) %></p>
-	      </div>
-	    <% end %>
-	  <% end %>
+		<% @authors.each do |author| %>
+			<%= link_to author, :class=>'author', :style => "background-image: url('#{author.avatar.url(:medium)}')" do %>
+				<div class="author-bio">
+					<h4><%= author.name %></h4>
+					<p><b>Cantidad de Libros: </b> <%= author.books.size %></p>
+					<p><%= truncate(author.desc, :length => 100) %></p>
+				</div>
+			<% end %>
+		<% end %>
 	</div>
 </div>
 
