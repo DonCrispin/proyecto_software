@@ -5,8 +5,12 @@
   <% end %>
   <h1>Nuevo Préstamo para <%= @book.title %></h1>
 </div>
-<% if @book.copies.size > @book.loaned %>
+<% if current_user.loans.where(active: [1, 0]).count >= 3 %>
+	<p><i>Ya tienes la cantidad mayor de libros activos, devuelve libros para poder solicitar más</i></p>
+<% elsif @book.copies.size > @book.loaned %>
 	<%= render 'form' %>
 <% else %>
 	<p><i>No se Encuentran Ejempleares disponibles de este libro</i></p>
 <% end %>
+
+

@@ -6,7 +6,7 @@ class Book < ApplicationRecord
   has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "/images/:style/missing.png"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\z/
 
-  def self.search(search)
+	def self.search(search)
 		if search
 			t = self.arel_table
 			s = "%#{search}%"
@@ -19,7 +19,7 @@ class Book < ApplicationRecord
 	def loaned()
 		r = 0
 		self.copies.each do |copy|
-			r += copy.loans.where(active: 1).size
+			r += copy.loans.where(active: [1, 0]).count
 		end
 		r
 	end

@@ -1,0 +1,151 @@
+<div class="rowadmin">
+	<div class="sidebar">
+		<form>
+			<label>Buscar Usuarios</label>
+			<input type="text" name="user">
+			<input type="submit" value="Buscar" name="" class="btn btn-info">
+		</form>
+		<hr>
+		<form>
+			<label>Buscar Libros</label>
+			<input type="text" name="book">
+			<input type="submit" value="Buscar" name="" class="btn btn-info">
+		</form>
+
+
+		<header></header>
+	</div>
+	<div class="admin-content">
+		<div class="info">
+			
+		</div>
+		<% if @par == "u" %>
+			<div class="user_list">
+				<% @users.each do |user| %>
+					<div class="admin-user">
+						<button class="arrow arrowb"><h4><span class="glyphicon glyphicon-arrow-down" style="margin-right: 20px"></span> <%= user.name %> - <%= user.loans.where(active: [0,1]).count %> libros en préstamo</h4></button>
+						<h5><b>Libros en Préstamo</b></h5>
+						<% if user.loans.where(active: [0,1]).count > 0 %>
+							<% user.loans.where(active: [0,1]).each do |loan| %>
+								<div class="user-loan">
+									<p><%= loan.copy.book.title %> - <%= loan.copy.location %></p>
+									<button class="btn btn-primary return-loan">Retornar Libro</button>
+									<button class="btn btn-danger cancel-loan">Cancelar Préstamo</button>
+									<input type="hidden" id="loanid" value="<%= loan.id %>">
+									<input type="hidden" id="loanid" value="<%= user.id %>">
+								</div>
+								<hr>
+							<% end %>
+						<% else %>
+							No tiene libros en prestamo
+						<% end %>
+					</div>
+					<hr>
+				<% end %>
+			</div>
+		<% elsif @par == "b" %>
+			<div class="book_list">
+				<% @books.each do |book| %>
+					<div class="admin-user">
+						<button class="arrow arrowb"><h4><span class="glyphicon glyphicon-arrow-down" style="margin-right: 20px"></span> <%= book.title %> - <%= book.copies.where(lended: false).count %> ejemplares para prestar</h4></button>
+						<% if book.copies.where(lended: false).count > 0 %>
+							<h5><b>Prestar un ejemplar</b></h5>
+							<form class="lendbook">
+								<label for="select_user_<%= book.id %>" class="form-label">Usuario</label>
+								<select id="select_user_<%= book.id %>" name="user" class="form-control">
+									<% @ausers.each do |user| %>
+										<% if user.loans.where(active: [1, 0]).count <= 3 %>
+											<option value="<%= user.id %>"><%= user.name %></option>
+										<% end %>
+									<% end %>
+								</select>
+								<label for="select_book_<%= book.id %>" class="form-label">Ejemplar</label>
+								<select id="select_book_<%= book.id %>" name="book" class="form-control">
+									<% book.copies.where(lended: false).each do |copy| %>
+										<option value="<%= copy.id %>"><%=  copy.location %></option>
+									<% end %>
+								</select>
+								<input type="submit" name="submit" value="Prestar" class="btn btn-success">
+							</form>
+						<% else %>
+							No hay ejemplares disponibles
+						<% end %>
+					</div>
+					<hr>
+				<% end %>
+			</div>
+		<% end %>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(".lendbook").submit(function(e){
+		var userid = $(this).find('[id^=select_user]').val();
+		var copyid = $(this).find('[id^=select_book]').val();
+		var u = $(this).find('[id^=select_user]');
+		var b = $(this).find('[id^=select_book]')
+		$.ajax({
+			type: 'POST',
+			url: '/users/'+userid+'/loans/add_loan',
+			data: { copy_id : copyid },
+			dataType: 'html',
+			success: function(xhr, textStatus) {
+			    u.find('[value='+userid+']').remove();
+			    b.find('[value='+copyid+']').remove();
+			    alert("El préstamos se ha realizado correctamente");
+			},
+			error: function(xhr, textStatus, errorThrown) {
+                alert('Hubo un error');
+			}
+        });
+		return false;
+	});
+
+	$(".arrowb").click(function(){
+		if($(this).parent().hasClass("maxh")){
+			$(this).parent().removeClass("maxh");
+
+		}
+		else{
+			$(this).parent().addClass("maxh");
+		}
+	});
+
+	$(".return-loan").click(function(){
+		var par = $(this).parent();
+		var loanid = $(this).next().next().val();
+		var userid = $(this).next().next().next().val();
+		console.log("loanid "+loanid+", userid: "+userid);
+		$.ajax({
+			type: 'POST',
+			url: '/users/'+userid+'/loans/'+loanid+'/return',
+			data: { userid : userid, loanid : loanid },
+			dataType: 'html',
+			success: function(xhr, textStatus) {
+			    par.addClass("hidden");
+			},
+			error: function(xhr, textStatus, errorThrown) {
+                alert('Hubo un error');
+			}
+        });
+	});
+
+	$(".cancel-loan").click(function(){
+		var par = $(this).parent();
+		var loanid = $(this).next().val();
+		var userid = $(this).next().next().val();
+		console.log("loanid "+loanid+", userid: "+userid);
+		$.ajax({
+			type: 'POST',
+			url: '/users/'+userid+'/loans/'+loanid+'/cancel',
+			data: { userid : userid, loanid : loanid },
+			dataType: 'html',
+			success: function(xhr, textStatus) {
+			    par.addClass("hidden");
+			},
+			error: function(xhr, textStatus, errorThrown) {
+                alert('Hubo un error');
+			}
+        });
+	});
+</script>

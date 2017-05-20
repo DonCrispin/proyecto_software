@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
   before_action :set_book, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_admin!, :except => [:show, :index]
   # before_action :authenticate_admin!, except: [:index, :show]
   # GET /books
   # GET /books.json
@@ -10,7 +11,6 @@ class BooksController < ApplicationController
       @books = Book.search(params[:search]).paginate(:page => 1, :per_page => 10).order(:title)
     end
   end
-
   # GET /books/1
   # GET /books/1.json
   def show

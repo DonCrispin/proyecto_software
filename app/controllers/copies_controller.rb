@@ -9,6 +9,11 @@ class CopiesController < ApplicationController
     end
   end
 
+  def notlended
+    book = Book.find(params[:book_id])
+    @copies = book.copies.where(lended: false)
+  end
+
   def show
   end
 

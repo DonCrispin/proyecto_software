@@ -4,7 +4,7 @@ class Copy < ApplicationRecord
   has_many :users, through: :loans
 
   def loansActive?
-  	if self.loans.where(active: 0 || 1).size>0
+  	if self.loans.where(active: [1, 0]).size>0
   		true
   	else
   		false

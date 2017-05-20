@@ -1,1 +1,95 @@
-<h1>hi</h1>
+<h1>Hola <%= current_user.name%></h1>
+
+<div class="avatar" style="background-image: url('<%=current_user.avatar.url(:medium)%>')"></div>
+
+<div style="text-align: center;">
+	<%= link_to "Editar Cuenta", edit_user_registration_path(current_user), class: "editbutton" %>
+</div>
+
+<% if @loans.count > 0 %>
+	<h4 style="text-align: center; margin: 20px 0">Los libros que actualmente tienes</h4>
+	<div class="user_books">
+		<div class="table-responsive">
+	      <table class="table table-striped table-bordered table-hover">
+	        <thead>
+	          <tr>
+	            <th>Titulo</th>
+	            <th>Ejemplar</th>
+	            <th>Estado</th>
+	            <th>Fecha de Entrega</th>
+	            <th>Fecha de Devolución</th>
+	            <th>Multa</th>
+	          </tr>
+	        </thead>
+
+	        <tbody>
+	          <%= content_tag_for(:tr, @loans, :style => "height: auto") do |loan| %>
+	                <td><%= link_to loan.copy.book.title, loan.copy.book  %></td>
+	                <td><%= loan.copy.location %></td>
+	                <% if loan.active == 0 %>
+	                	<td>No has ido a recogerlo</td>
+	                <% else %>
+	                	<td>Activo</td>
+	                <% end %>
+	                <% if Date.today >= loan.delivery_date %>
+	                	<td>Hace <%= time_ago_in_words loan.delivery_date %></td>
+	                <% else %>
+	                	<td>En <%= time_ago_in_words loan.delivery_date %></td>
+	                <% end %>
+	                <% if Date.today > loan.return_date %>
+	                	<td>Hace <%= time_ago_in_words loan.return_date%></td>
+	                <% else %>
+	                	<td>En <%= time_ago_in_words loan.return_date%></td>
+	                <% end %>
+	                <% if loan.user_return.present? %>
+		                <% if loan.user_return > loan.return_date %>
+		                	
+		                	<td><span style="color: red"><%= (loan.user_return - loan.return_date).to_i %> días de Multa</span><td>
+		                <% else %>
+		                	<td>No</td>
+		                <% end %>
+		            <% else %>
+		            	<td>No</td>
+	                <% end %>
+	          <% end %>
+	        </tbody>
+	      </table>
+	    </div>
+	</div>
+<% end %>
+
+<% if @hist.count > 0 %>
+	<h4 style="text-align: center; margin: 20px 0">Historial</h4>
+	<div class="user_books">
+		<div class="table-responsive">
+	      <table class="table table-striped table-bordered table-hover">
+	        <thead>
+	          <tr>
+                <th>Titulo</th>
+                <th>Ejemplar</th>
+                <th>Devuelto</th>
+                <th>Multa</th>
+	          </tr>
+	        </thead>
+
+	        <tbody>
+	          <%= content_tag_for(:tr, @hist, :style => "height: auto") do |loan| %>
+	                <td><%= link_to loan.copy.book.title, loan.copy.book  %></td>
+	                <td><%= loan.copy.location %></td>
+	                <td>Hace <%= time_ago_in_words loan.return_date %></td>
+	                <% if loan.user_return.present? %>
+		                <% if loan.user_return > loan.return_date %>
+		                	<td><%= (loan.user_return - loan.return_date).to_i %> días de Multa</td>
+		                <% else %>
+		                	<td>No</td>
+		                <% end %>
+		            <% else %>
+		            	<td>No</td>
+	                <% end %>
+	          <% end %>
+	        </tbody>
+	      </table>
+	    </div>
+	</div>
+	<%= will_paginate @hist %>
+<% end %>

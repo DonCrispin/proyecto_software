@@ -30,6 +30,17 @@ textarea
 		padding: 5px
 		display: block
 
+.avatar
+	border-radius: 50%
+	width: 150px
+	height: 150px
+	margin: 5px auto
+	background: 
+		size: cover
+		repeat: no-repeat
+		origin: center
+		position: center
+
 .field_avatar
 	display: flex
 	font-family: Helvetica
@@ -44,6 +55,28 @@ textarea
 	overflow: hidden
 	position: absolute
 	z-index: -1
+
+.editbutton
+	padding: 5px
+	display: block
+	cursor: pointer
+	background-color: #337ab7
+	text-overflow: ellipsis
+	white-space: nowrap
+	overflow: hidden
+	max-width: 200px
+	text-transform: uppercase
+	font-weight: 700
+	color: white
+	border: 0
+	text-decoration: none
+	margin: 10px auto
+	transition: all 300ms ease-in-out
+	&:hover
+		transform: scale(1.1)
+		background-color: #337ab7 
+		color: white
+		text-decoration: none
 
 .upload
 	padding: 5px
@@ -175,6 +208,9 @@ textarea
 	text-align: center
 	position: absolute
 
+.minn
+	min-height: 80vh
+
 .flip-container 
 	perspective: 1000px
 
@@ -299,16 +335,68 @@ textarea
 		bottom: 0
 		text-shadow: 6px 6px 6px rgba(0,0,0,0.8)
 
+
+.loaned-book
+	text-align: center
+
+.creators
+	display: flex
+	.creator
+		box-sizing: border-box
+		width: calc(100% /3)
+	.creator_image
+		width: 80%
+		padding-bottom: 80%
+		margin: 0 auto
+		border-radius: 50%
+		background: 
+			size: cover
+			repeat: no-repeat
+			origin: center
+
+.rowadmin
+	display: flex
+	.sidebar
+		margin-top: 30px
+		width: 25%
+
+	.admin-content
+		width: 75%
+		padding: 20px
+
+.user-loan
+	margin-left: 40px
+
+.admin-user
+	max-height: 45px
+	overflow: hidden
+	transition: all 400ms ease-in-out
+
+.maxh
+	max-height: 400px
+
+.arrow
+	display: block
+	width: 100%
+	border: none
+	background-color: white
+	outline: none
+	text-align: left
+	transition: all 300ms ease-in-out
+	&:hover
+		background: lightgray 
+
 footer
 	min-height: 250px
 	background-color: #222
 	display: flex
 	justify-content: space-around
 	position:absolute
+	align-items: center
 	bottom: 0
 
 .boletin
-	margin: 5%	
+	margin: 20px 10px
 	flex-grow: 1
 	flex-basis: 0
 	h2
@@ -317,6 +405,7 @@ footer
 		font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif
 		text-transform: uppercase
 		font-weight: 700
+		font-size: 21px
 	
 	[name="email"]
 		margin: 5px 0
@@ -340,8 +429,8 @@ footer
 			transform: scale(1.2)
 			background-color: white
 
-.links
-	margin: 5%	
+.linksf
+	margin: 20px 10px
 	flex-grow: 1
 	flex-basis: 0
 	h2
@@ -350,6 +439,7 @@ footer
 		font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif
 		text-transform: uppercase
 		font-weight: 700
+		font-size: 21px
 	ul
 		text-align: center
 		margin: 10px 0
@@ -375,7 +465,7 @@ footer
 		transition: all .3s ease-in-out
 		
 .acerca
-	margin: 5%	
+	margin: 20px 10px	
 	flex-grow: 1
 	flex-basis: 0
 	h2
@@ -384,6 +474,7 @@ footer
 		font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif
 		text-transform: uppercase
 		font-weight: 700
+		font-size: 21px
 	p
 		text-align: justify
 		color: rgb(200,200,200)

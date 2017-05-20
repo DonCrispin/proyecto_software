@@ -32,7 +32,7 @@
   </div>
   <div class="field field_select">
     <%= f.label :author_id, "Ejemplar" %>
-    <%= f.collection_select(:copy_id, @copies.includes(:loans).where(:loans => { :active => [nil, 2] }), :id, :location) %>
+    <%= f.collection_select(:copy_id, @copies, :id, :location) %>
   </div>
   <div class="form-group">
     <div class="col-lg-offset-2 col-lg-15">
